@@ -7,25 +7,20 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def generate_x_post(topic: str) -> str:
-    prompt = f"""
+    instructions = """
 You are an expert social media manager, and you excel at crafting viral, highly engaging posts for X (formerly Twitter).
 
 Your task is to generate a post that is concise, impactful, and tailored to the topic provided by the user.
 Avoid using hashtags or too many emojis (a few are okay, but not too many).
 
 Keep the post short and focused. Structure it in a clean, readable way, using line breaks and blank lines to enhance readability.
-
-Here is the topic provided by the user for which you need to generate a post:
-
-<topic>
-{topic}
-</topic>
 """
     
     # call AI / LLM
     body = {
-        "model": "qwen-3.5-122b-sovereign",
-        "input": prompt
+        "model": "qwen-3.6-35b-sovereign",
+        "instructions": instructions,
+        "input": topic
     }
     response = requests.post(
         url="https://adesso-ai-hub.3asabc.de/v1/responses",
