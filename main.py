@@ -20,17 +20,19 @@ Here is the topic provided by the user for which you need to generate a post:
 <topic>
 {topic}
 </topic>
-    """
+"""
     
     # call AI / LLM
+    body = {
+        "model": "qwen-3.5-122b-sovereign",
+        "input": prompt
+    }
     response = requests.post(
-        url="http://localhost:12434/engines/v1",
-        json={
-            "model": "ai/smollm2",
-            "prompt": prompt
-        },
+        url="https://adesso-ai-hub.3asabc.de/v1/responses",
+        json=body,
         headers={
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}"
         })
     response_text = response.json().get("output", [{}])[0].get("content", [{}])[0].get("text", "")
     return response_text
