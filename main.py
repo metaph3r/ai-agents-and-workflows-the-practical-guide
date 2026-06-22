@@ -1,12 +1,15 @@
 import os
-import requests
+
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
 def generate_x_post(topic: str) -> str:
+    # automatically uses OPENAI_API_KEY environment variable
+    client = OpenAI(
+        base_url="https://adesso-ai-hub.3asabc.de/v1"
+    )
     instructions = """
 You are an expert social media manager, and you excel at crafting viral, highly engaging posts for X (formerly Twitter).
 
@@ -17,20 +20,12 @@ Keep the post short and focused. Structure it in a clean, readable way, using li
 """
     
     # call AI / LLM
-    body = {
-        "model": "qwen-3.6-35b-sovereign",
-        "instructions": instructions,
-        "input": topic
-    }
-    response = requests.post(
-        url="https://adesso-ai-hub.3asabc.de/v1/responses",
-        json=body,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {OPENAI_API_KEY}"
-        })
-    response_text = response.json().get("output", [{}])[0].get("content", [{}])[0].get("text", "")
-    return response_text
+    responses = client.responses.create(
+        model="gpt-4o",
+        instructions=instructions, 
+        input=topic
+    )
+    return responses.output_text
 
 def main():
     # user input => AI (LLM) to generate X posts => output post
