@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from src.ai_interfaces.ai_interface import AiConnection
+from src.ai_connection.ai_connection import AiConnection
 
 
 class AiHubConnection(AiConnection):

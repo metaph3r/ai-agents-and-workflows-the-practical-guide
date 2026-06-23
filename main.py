@@ -1,8 +1,8 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 
-from src.ai_interfaces.ai_hub_connection import AiHubConnection
-from src.ai_interfaces.ollama_connection import OllamaConnection
+from src.ai_connection.ai_hub_connection import AiHubConnection
+from src.ai_connection.ollama_connection import OllamaConnection
 from src.x_agent import XAgent
 
 load_dotenv()
