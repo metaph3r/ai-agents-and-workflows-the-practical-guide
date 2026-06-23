@@ -1,5 +1,6 @@
 from openai import OpenAI
 
+from src.ai_model import AiModel
 from src.ai_prompt.ai_prompt import AiPrompt
 from src.ai_connection.ai_connection import AiConnection
 
@@ -10,10 +11,10 @@ class LocalAiConnection(AiConnection):
             base_url="https://localhost:8080/v1"
         )
 
-    def execute_ai_call(self, prompt: AiPrompt) -> str:
+    def execute_ai_call(self, prompt: AiPrompt, model: AiModel = AiModel.GEMMA_3_1B_IT) -> str:
         print("Querying AI Hub...")
         responses = self.client.responses.create(
-            model="gemma-3-1b-it",
+            model=model.value,
             input=prompt.get_prompt()
         )
         return responses.output_text
